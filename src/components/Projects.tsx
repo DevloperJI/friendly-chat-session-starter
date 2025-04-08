@@ -15,7 +15,7 @@ const projects = [
     color: "from-blue-500 to-cyan-400",
     icon: <Calendar className="h-10 w-10 text-blue-500 dark:text-blue-400" />,
     demoUrl: "#",
-    codeUrl: "#"
+    codeUrl: "https://github.com/DevloperJI/task-management-system"
   },
   {
     title: "Weather Forecast Application",
@@ -25,7 +25,7 @@ const projects = [
     color: "from-purple-500 to-pink-400",
     icon: <Code className="h-10 w-10 text-purple-500 dark:text-purple-400" />,
     demoUrl: "#",
-    codeUrl: "#"
+    codeUrl: "https://github.com/DevloperJI/weather-forecast-app"
   },
   {
     title: "E-Commerce Frontend",
@@ -35,7 +35,7 @@ const projects = [
     color: "from-orange-500 to-amber-400",
     icon: <ExternalLink className="h-10 w-10 text-orange-500 dark:text-orange-400" />,
     demoUrl: "#",
-    codeUrl: "#"
+    codeUrl: "https://github.com/DevloperJI/ecommerce-frontend"
   },
   {
     title: "Digital Marketing Automation Tool",
@@ -45,7 +45,7 @@ const projects = [
     color: "from-green-500 to-emerald-400",
     icon: <ArrowRight className="h-10 w-10 text-green-500 dark:text-green-400" />,
     demoUrl: "#",
-    codeUrl: "#"
+    codeUrl: "https://github.com/DevloperJI/marketing-automation"
   }
 ];
 
@@ -124,6 +124,18 @@ const Projects = () => {
               ))}
             </div>
           )}
+          
+          <div className="text-center mt-12">
+            <a 
+              href="https://github.com/DevloperJI" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transform transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              <Github className="h-5 w-5" />
+              <span>View All Projects on GitHub</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -184,11 +196,21 @@ const ProjectCard = ({
           </span>
         </div>
         <div className="flex gap-3 w-full">
-          <Button variant="outline" size="sm" className="flex-1 gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="flex-1 gap-2"
+            onClick={() => window.open(project.codeUrl, '_blank')}
+          >
             <Github size={14} />
             <span>Code</span>
           </Button>
-          <Button variant="default" size="sm" className="flex-1 gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600">
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="flex-1 gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600"
+            onClick={() => window.open(project.demoUrl, '_blank')}
+          >
             <Eye size={14} />
             <span>Live Demo</span>
           </Button>

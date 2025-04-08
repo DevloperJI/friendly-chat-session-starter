@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import BackToTop from "@/components/BackToTop";
 import Testimonials from "@/components/Testimonials";
+import ResumeDownload from "@/components/ResumeDownload";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
@@ -52,6 +53,9 @@ const Index = () => {
       <Footer />
       <DarkModeToggle />
       <BackToTop />
+      <div className="fixed bottom-6 right-6 z-40">
+        <ResumeDownload />
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Mail, Phone, MapPin, Check } from "lucide-react";
+import { Send, Mail, Phone, MapPin, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 
@@ -54,7 +54,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-white dark:bg-slate-800">
       <div className="container mx-auto px-4">
         <div 
           ref={sectionRef}
@@ -69,53 +69,87 @@ const Contact = () => {
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div>
-              <h3 className="text-xl font-bold text-slate-800 mb-6">Contact Information</h3>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Contact Information</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="p-3 rounded-full bg-blue-100 mr-4">
-                    <Mail size={20} className="text-blue-600" />
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                    <Mail size={20} className="text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-slate-700 mb-1">Email</h4>
-                    <a href="mailto:mji041854@gmail.com" className="text-slate-600 hover:text-blue-600 transition-colors">
+                    <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-1">Email</h4>
+                    <a href="mailto:mji041854@gmail.com" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                       mji041854@gmail.com
                     </a>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="p-3 rounded-full bg-blue-100 mr-4">
-                    <Phone size={20} className="text-blue-600" />
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                    <Phone size={20} className="text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-slate-700 mb-1">Phone</h4>
-                    <a href="tel:+919140919036" className="text-slate-600 hover:text-blue-600 transition-colors">
+                    <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-1">Phone</h4>
+                    <a href="tel:+919140919036" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                       +91 9140919036
                     </a>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="p-3 rounded-full bg-blue-100 mr-4">
-                    <MapPin size={20} className="text-blue-600" />
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                    <MapPin size={20} className="text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-slate-700 mb-1">Location</h4>
-                    <p className="text-slate-600">
+                    <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-1">Location</h4>
+                    <p className="text-slate-600 dark:text-slate-400">
                       Lucknow (226002), Uttar Pradesh, India
                     </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                    <Github size={20} className="text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-1">GitHub</h4>
+                    <a 
+                      href="https://github.com/DevloperJI" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      github.com/DevloperJI
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                    <Linkedin size={20} className="text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-slate-700 dark:text-slate-300 mb-1">LinkedIn</h4>
+                    <a 
+                      href="https://www.linkedin.com/in/prashant-mishra-2035301b0/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      linkedin.com/in/prashant-mishra-2035301b0
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
             
             <div>
-              <h3 className="text-xl font-bold text-slate-800 mb-6">Send a Message</h3>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Send a Message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Name
                   </label>
                   <input
@@ -124,13 +158,13 @@ const Contact = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your name"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Email
                   </label>
                   <input
@@ -139,13 +173,13 @@ const Contact = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your email"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
+                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                     Message
                   </label>
                   <textarea
@@ -154,14 +188,14 @@ const Contact = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     required
                     rows={4}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your message"
                   ></textarea>
                 </div>
                 
                 <Button 
                   type="submit" 
-                  className="w-full"
+                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -181,6 +215,27 @@ const Contact = () => {
                 </Button>
               </form>
             </div>
+          </div>
+          
+          <div className="mt-12 flex justify-center space-x-4">
+            <a 
+              href="https://github.com/DevloperJI"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 rounded-full text-white flex items-center gap-2 transform transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              <Github size={18} />
+              <span>Follow on GitHub</span>
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/prashant-mishra-2035301b0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-600 hover:to-blue-700 rounded-full text-white flex items-center gap-2 transform transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              <Linkedin size={18} />
+              <span>Connect on LinkedIn</span>
+            </a>
           </div>
         </div>
       </div>

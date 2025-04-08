@@ -19,14 +19,18 @@ const Footer = () => {
           
           <div className="flex space-x-4">
             <a 
-              href="#" 
+              href="https://github.com/DevloperJI" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="GitHub"
             >
               <Github size={20} />
             </a>
             <a 
-              href="#" 
+              href="https://www.linkedin.com/in/prashant-mishra-2035301b0/" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="LinkedIn"
             >
