@@ -15,11 +15,16 @@ import ResumeDownload from "@/components/ResumeDownload";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
+  const [scrollY, setScrollY] = useState(0);
   
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      
+      // Determine active section for navbar highlighting
       const sections = document.querySelectorAll("section");
-      const scrollPosition = window.scrollY + 200;
+      const scrollPosition = currentScrollY + 200;
       
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
@@ -38,11 +43,23 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Parallax effect calculation
+  const parallaxOffset = scrollY * 0.1;
+
   return (
     <div className="bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 min-h-screen transition-colors duration-500">
       <Header activeSection={activeSection} />
       <main className="pt-16">
-        <Hero />
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <div 
+            style={{ 
+              transform: `translateY(${parallaxOffset * 0.5}px)`,
+              transition: 'transform 0.1s ease-out'
+            }}
+          >
+            <Hero />
+          </div>
+        </div>
         <About />
         <Skills />
         <Projects />

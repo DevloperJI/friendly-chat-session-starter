@@ -37,14 +37,18 @@ const Footer = () => {
               <Linkedin size={20} />
             </a>
             <a 
-              href="#" 
+              href="https://twitter.com/PrashantMishra" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="Twitter"
             >
               <Twitter size={20} />
             </a>
             <a 
-              href="#" 
+              href="https://prashantmishra-portfolio.com" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="Portfolio"
             >
