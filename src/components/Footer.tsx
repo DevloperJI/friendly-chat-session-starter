@@ -20,28 +20,28 @@ const Footer = () => {
           <div className="flex space-x-4">
             <a 
               href="#" 
-              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="GitHub"
             >
               <Github size={20} />
             </a>
             <a 
               href="#" 
-              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="LinkedIn"
             >
               <Linkedin size={20} />
             </a>
             <a 
               href="#" 
-              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="Twitter"
             >
               <Twitter size={20} />
             </a>
             <a 
               href="#" 
-              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-110 duration-300"
               aria-label="Portfolio"
             >
               <ExternalLink size={20} />

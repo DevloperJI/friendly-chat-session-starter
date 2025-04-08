@@ -22,6 +22,7 @@ const Header = ({ activeSection }: { activeSection: string }) => {
     { href: "#skills", label: "Skills" },
     { href: "#projects", label: "Projects" },
     { href: "#education", label: "Education" },
+    { href: "#testimonials", label: "Testimonials" },
     { href: "#contact", label: "Contact" },
   ];
 
@@ -38,7 +39,7 @@ const Header = ({ activeSection }: { activeSection: string }) => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled 
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-3" 
+          ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm py-3" 
           : "bg-transparent py-5"
       )}
     >
@@ -66,15 +67,15 @@ const Header = ({ activeSection }: { activeSection: string }) => {
                     scrollToSection(link.href);
                   }}
                   className={cn(
-                    "relative text-sm font-medium transition-colors hover:text-blue-600",
+                    "relative text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400",
                     activeSection === link.href.substring(1)
-                      ? "text-blue-600"
-                      : "text-slate-700"
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-slate-700 dark:text-slate-300"
                   )}
                 >
                   {link.label}
                   {activeSection === link.href.substring(1) && (
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 rounded-full" />
+                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
                   )}
                 </a>
               </li>
@@ -84,8 +85,9 @@ const Header = ({ activeSection }: { activeSection: string }) => {
         
         {/* Mobile Navigation Toggle */}
         <button 
-          className="md:hidden text-slate-700 focus:outline-none"
+          className="md:hidden text-slate-700 dark:text-white focus:outline-none"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -93,7 +95,7 @@ const Header = ({ activeSection }: { activeSection: string }) => {
       
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-md py-4 animate-fade-in">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-900 shadow-md py-4 animate-fade-in">
           <nav className="container mx-auto px-4">
             <ul className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -105,10 +107,10 @@ const Header = ({ activeSection }: { activeSection: string }) => {
                       scrollToSection(link.href);
                     }}
                     className={cn(
-                      "block py-2 text-sm font-medium transition-colors hover:text-blue-600",
+                      "block py-2 text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400",
                       activeSection === link.href.substring(1)
-                        ? "text-blue-600"
-                        : "text-slate-700"
+                        ? "text-blue-600 dark:text-blue-400"
+                        : "text-slate-700 dark:text-slate-300"
                     )}
                   >
                     {link.label}

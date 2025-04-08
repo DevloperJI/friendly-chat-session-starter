@@ -8,6 +8,9 @@ import Projects from "@/components/Projects";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import DarkModeToggle from "@/components/DarkModeToggle";
+import BackToTop from "@/components/BackToTop";
+import Testimonials from "@/components/Testimonials";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
@@ -35,7 +38,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-slate-50 to-slate-100 min-h-screen">
+    <div className="bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 min-h-screen transition-colors duration-500">
       <Header activeSection={activeSection} />
       <main className="pt-16">
         <Hero />
@@ -43,9 +46,12 @@ const Index = () => {
         <Skills />
         <Projects />
         <Education />
+        <Testimonials />
         <Contact />
       </main>
       <Footer />
+      <DarkModeToggle />
+      <BackToTop />
     </div>
   );
 };

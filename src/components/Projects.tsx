@@ -1,6 +1,6 @@
 
-import { useEffect, useRef } from "react";
-import { ExternalLink, Calendar, Code, ArrowRight, CheckCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, Calendar, Code, ArrowRight, CheckCircle, Github, Eye } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -13,7 +13,9 @@ const projects = [
     technologies: ["Python", "OOP", "Git", "Unit Testing"],
     learnings: "Code optimization, debugging, and collaboration",
     color: "from-blue-500 to-cyan-400",
-    icon: <Calendar className="h-10 w-10 text-blue-500" />
+    icon: <Calendar className="h-10 w-10 text-blue-500 dark:text-blue-400" />,
+    demoUrl: "#",
+    codeUrl: "#"
   },
   {
     title: "Weather Forecast Application",
@@ -21,7 +23,9 @@ const projects = [
     technologies: ["Java", "APIs", "JavaFX", "Integration Testing"],
     learnings: "API integration, data handling, and UI development with JavaFX",
     color: "from-purple-500 to-pink-400",
-    icon: <Code className="h-10 w-10 text-purple-500" />
+    icon: <Code className="h-10 w-10 text-purple-500 dark:text-purple-400" />,
+    demoUrl: "#",
+    codeUrl: "#"
   },
   {
     title: "E-Commerce Frontend",
@@ -29,7 +33,9 @@ const projects = [
     technologies: ["HTML", "CSS", "JavaScript", "Responsive Design"],
     learnings: "Frontend development, user experience design, and web optimization",
     color: "from-orange-500 to-amber-400",
-    icon: <ExternalLink className="h-10 w-10 text-orange-500" />
+    icon: <ExternalLink className="h-10 w-10 text-orange-500 dark:text-orange-400" />,
+    demoUrl: "#",
+    codeUrl: "#"
   },
   {
     title: "Digital Marketing Automation Tool",
@@ -37,13 +43,16 @@ const projects = [
     technologies: ["Python", "APIs", "Data Analysis", "Automation"],
     learnings: "Automation, data analysis, and API interaction",
     color: "from-green-500 to-emerald-400",
-    icon: <ArrowRight className="h-10 w-10 text-green-500" />
+    icon: <ArrowRight className="h-10 w-10 text-green-500 dark:text-green-400" />,
+    demoUrl: "#",
+    codeUrl: "#"
   }
 ];
 
 const Projects = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,7 +79,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="py-20 bg-white">
+    <section id="projects" className="py-20 bg-white dark:bg-slate-800">
       <div className="container mx-auto px-4">
         <div 
           ref={sectionRef}
@@ -86,9 +95,14 @@ const Projects = () => {
           {isMobile ? (
             <Carousel className="w-full">
               <CarouselContent>
-                {projects.map((project) => (
+                {projects.map((project, index) => (
                   <CarouselItem key={project.title}>
-                    <ProjectCard project={project} />
+                    <ProjectCard 
+                      project={project} 
+                      index={index}
+                      isHovered={hoveredCard === index}
+                      setHovered={setHoveredCard}
+                    />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -99,8 +113,14 @@ const Projects = () => {
             </Carousel>
           ) : (
             <div className="grid md:grid-cols-2 gap-6">
-              {projects.map((project) => (
-                <ProjectCard key={project.title} project={project} />
+              {projects.map((project, index) => (
+                <ProjectCard 
+                  key={project.title} 
+                  project={project} 
+                  index={index}
+                  isHovered={hoveredCard === index}
+                  setHovered={setHoveredCard}
+                />
               ))}
             </div>
           )}
@@ -110,29 +130,44 @@ const Projects = () => {
   );
 };
 
-const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
+const ProjectCard = ({ 
+  project, 
+  index,
+  isHovered, 
+  setHovered 
+}: { 
+  project: typeof projects[0]; 
+  index: number;
+  isHovered: boolean; 
+  setHovered: (index: number | null) => void;
+}) => {
   return (
-    <Card className="overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+    <Card 
+      className={`overflow-hidden transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl
+        ${isHovered ? 'shadow-lg scale-[1.02]' : 'shadow-md'}`}
+      onMouseEnter={() => setHovered(index)}
+      onMouseLeave={() => setHovered(null)}
+    >
       <div className={`h-2 bg-gradient-to-r ${project.color}`}></div>
       <CardHeader className="flex flex-row items-center gap-4">
-        <div className="p-2 rounded-md bg-slate-100">
+        <div className="p-2 rounded-md bg-slate-100 dark:bg-slate-700">
           {project.icon}
         </div>
         <div>
-          <CardTitle>{project.title}</CardTitle>
-          <CardDescription className="text-slate-600 mt-1">
+          <CardTitle className="dark:text-white">{project.title}</CardTitle>
+          <CardDescription className="text-slate-600 dark:text-slate-400 mt-1">
             {project.description}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
         <div className="mb-4">
-          <h4 className="text-sm font-medium text-slate-500 mb-2">Technologies Used:</h4>
+          <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Technologies Used:</h4>
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tech) => (
               <span 
                 key={tech}
-                className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium"
+                className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-xs font-medium"
               >
                 {tech}
               </span>
@@ -141,17 +176,23 @@ const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col items-start">
-        <div className="flex items-start gap-2 text-sm text-slate-600 mb-4">
-          <CheckCircle size={18} className="text-green-500 mt-0.5" />
+        <div className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400 mb-4">
+          <CheckCircle size={18} className="text-green-500 dark:text-green-400 mt-0.5" />
           <span>
             <span className="font-medium">Learned: </span>
             {project.learnings}
           </span>
         </div>
-        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 p-0">
-          Learn more
-          <ArrowRight size={14} className="ml-1" />
-        </Button>
+        <div className="flex gap-3 w-full">
+          <Button variant="outline" size="sm" className="flex-1 gap-2">
+            <Github size={14} />
+            <span>Code</span>
+          </Button>
+          <Button variant="default" size="sm" className="flex-1 gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600">
+            <Eye size={14} />
+            <span>Live Demo</span>
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

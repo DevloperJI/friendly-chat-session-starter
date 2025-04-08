@@ -1,48 +1,77 @@
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Code, Database, Code2, Laptop, GitBranch, CheckCircle2, BrainCircuit } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 const skillCategories = [
   {
     title: "Programming Languages",
-    icon: <Code size={24} className="text-blue-600" />,
-    skills: ["Java", "Python", "C++", "SQL"],
-    iconBg: "bg-blue-100"
+    icon: <Code size={24} className="text-blue-600 dark:text-blue-400" />,
+    skills: [
+      { name: "Java", level: 85 },
+      { name: "Python", level: 80 },
+      { name: "C++", level: 70 },
+      { name: "SQL", level: 75 }
+    ],
+    iconBg: "bg-blue-100 dark:bg-blue-900/30"
   },
   {
     title: "Web Development",
-    icon: <Code2 size={24} className="text-green-600" />,
-    skills: ["Django", "Flask", "HTML/CSS"],
-    iconBg: "bg-green-100"
+    icon: <Code2 size={24} className="text-green-600 dark:text-green-400" />,
+    skills: [
+      { name: "Django", level: 75 },
+      { name: "Flask", level: 70 },
+      { name: "HTML/CSS", level: 80 }
+    ],
+    iconBg: "bg-green-100 dark:bg-green-900/30"
   },
   {
     title: "Databases & ML",
-    icon: <Database size={24} className="text-purple-600" />,
-    skills: ["SQL", "Machine Learning", "Data Analysis"],
-    iconBg: "bg-purple-100"
+    icon: <Database size={24} className="text-purple-600 dark:text-purple-400" />,
+    skills: [
+      { name: "SQL", level: 75 },
+      { name: "Machine Learning", level: 65 },
+      { name: "Data Analysis", level: 70 }
+    ],
+    iconBg: "bg-purple-100 dark:bg-purple-900/30"
   },
   {
     title: "Tools & Practices",
-    icon: <Laptop size={24} className="text-orange-600" />,
-    skills: ["Git", "JIRA", "Trello", "Google Workspace"],
-    iconBg: "bg-orange-100"
+    icon: <Laptop size={24} className="text-orange-600 dark:text-orange-400" />,
+    skills: [
+      { name: "Git", level: 80 },
+      { name: "JIRA", level: 65 },
+      { name: "Trello", level: 75 },
+      { name: "Google Workspace", level: 90 }
+    ],
+    iconBg: "bg-orange-100 dark:bg-orange-900/30"
   },
   {
     title: "Development Practices",
-    icon: <GitBranch size={24} className="text-red-600" />,
-    skills: ["Unit Testing", "Code Optimization", "Integration Testing"],
-    iconBg: "bg-red-100"
+    icon: <GitBranch size={24} className="text-red-600 dark:text-red-400" />,
+    skills: [
+      { name: "Unit Testing", level: 75 },
+      { name: "Code Optimization", level: 80 },
+      { name: "Integration Testing", level: 70 }
+    ],
+    iconBg: "bg-red-100 dark:bg-red-900/30"
   },
   {
     title: "Soft Skills",
-    icon: <BrainCircuit size={24} className="text-cyan-600" />,
-    skills: ["Problem Solving", "Critical Thinking", "Communication", "Teamwork"],
-    iconBg: "bg-cyan-100"
+    icon: <BrainCircuit size={24} className="text-cyan-600 dark:text-cyan-400" />,
+    skills: [
+      { name: "Problem Solving", level: 90 },
+      { name: "Critical Thinking", level: 85 },
+      { name: "Communication", level: 80 },
+      { name: "Teamwork", level: 85 }
+    ],
+    iconBg: "bg-cyan-100 dark:bg-cyan-900/30"
   }
 ];
 
 const Skills = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [animateSkills, setAnimateSkills] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,6 +79,7 @@ const Skills = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("animate-fade-in");
+            setAnimateSkills(true);
             observer.unobserve(entry.target);
           }
         });
@@ -69,7 +99,7 @@ const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-20 bg-slate-50">
+    <section id="skills" className="py-20 bg-slate-50 dark:bg-slate-900">
       <div className="container mx-auto px-4">
         <div 
           ref={sectionRef}
@@ -86,23 +116,33 @@ const Skills = () => {
             {skillCategories.map((category, index) => (
               <div 
                 key={category.title}
-                className="bg-white rounded-xl shadow-md border border-slate-100 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-100 dark:border-slate-700 p-6 hover:shadow-lg transition-shadow"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center mb-4">
                   <div className={`p-3 rounded-full mr-4 ${category.iconBg}`}>
                     {category.icon}
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-800">
+                  <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
                     {category.title}
                   </h3>
                 </div>
                 
-                <ul className="space-y-2">
-                  {category.skills.map((skill) => (
-                    <li key={skill} className="flex items-center gap-2 text-slate-600">
-                      <CheckCircle2 size={16} className="text-blue-500" />
-                      {skill}
+                <ul className="space-y-4">
+                  {category.skills.map((skill, skillIndex) => (
+                    <li key={skill.name} className="space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="text-slate-600 dark:text-slate-300 text-sm">{skill.name}</span>
+                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{skill.level}%</span>
+                      </div>
+                      <Progress 
+                        value={animateSkills ? skill.level : 0} 
+                        className="h-2 bg-slate-200 dark:bg-slate-700"
+                        style={{ 
+                          transition: "all 1s ease-out", 
+                          transitionDelay: `${(index * 0.1) + (skillIndex * 0.15)}s`
+                        }}
+                      />
                     </li>
                   ))}
                 </ul>
