@@ -20,8 +20,8 @@ import "./index.css";
 
 const queryClient = new QueryClient();
 
-const App = () => {
-  // Check for dark mode preference on initial load
+// Separate component for theme initialization
+const ThemeInitializer = () => {
   useEffect(() => {
     const isDarkMode = localStorage.getItem("theme") === "dark" || 
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -33,6 +33,10 @@ const App = () => {
     }
   }, []);
 
+  return null;
+};
+
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AdminProvider>
@@ -41,6 +45,7 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ThemeInitializer />
               <Routes>
                 <Route path="/" element={<Index />} />
                 
