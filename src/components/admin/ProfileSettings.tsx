@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -13,14 +14,49 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { User, Mail, MapPin, Phone, Upload } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const ProfileSettings = () => {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
+  const [profileImage, setProfileImage] = useState(localStorage.getItem("profile_image") || "");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageDataUrl = event.target?.result as string;
+        setProfileImage(imageDataUrl);
+        localStorage.setItem("profile_image", imageDataUrl);
+        toast({
+          title: "Profile picture updated",
+          description: "Your profile picture has been updated successfully."
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
   
   // Form would be implemented with useForm in a real application
   const handleSave = () => {
     setIsSaving(true);
+    
+    // Save form data to localStorage
+    const formData = {
+      name: (document.getElementById("name") as HTMLInputElement).value,
+      email: (document.getElementById("email") as HTMLInputElement).value,
+      location: (document.getElementById("location") as HTMLInputElement).value,
+      phone: (document.getElementById("phone") as HTMLInputElement).value,
+      bio: (document.getElementById("bio") as HTMLTextAreaElement).value,
+    };
+    
+    localStorage.setItem("profile_data", JSON.stringify(formData));
     
     // Simulate saving data
     setTimeout(() => {
@@ -30,6 +66,16 @@ const ProfileSettings = () => {
       });
       setIsSaving(false);
     }, 1000);
+  };
+
+  // Load profile data from localStorage
+  const getProfileData = (field: string, defaultValue: string) => {
+    try {
+      const profileData = JSON.parse(localStorage.getItem("profile_data") || "{}");
+      return profileData[field] || defaultValue;
+    } catch (error) {
+      return defaultValue;
+    }
   };
 
   return (
@@ -52,14 +98,35 @@ const ProfileSettings = () => {
           </CardHeader>
           <CardContent className="flex flex-col items-center">
             <div className="relative w-32 h-32 mb-4">
-              <div className="w-full h-full rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                <User className="h-16 w-16 text-slate-400" />
-              </div>
-              <button className="absolute bottom-0 right-0 rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 shadow-lg">
+              <Avatar className="w-full h-full">
+                {profileImage ? (
+                  <AvatarImage src={profileImage} alt="Profile" className="object-cover" />
+                ) : (
+                  <AvatarFallback className="bg-slate-200 dark:bg-slate-700">
+                    <User className="h-16 w-16 text-slate-400" />
+                  </AvatarFallback>
+                )}
+              </Avatar>
+              <button 
+                className="absolute bottom-0 right-0 rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 shadow-lg"
+                onClick={triggerFileInput}
+              >
                 <Upload className="h-4 w-4" />
               </button>
             </div>
-            <Button variant="outline" size="sm" className="mt-2">
+            <input 
+              type="file" 
+              ref={fileInputRef}
+              className="hidden" 
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-2"
+              onClick={triggerFileInput}
+            >
               Change Photo
             </Button>
           </CardContent>
@@ -86,7 +153,7 @@ const ProfileSettings = () => {
                   <Input 
                     id="name" 
                     placeholder="Prashant Mishra" 
-                    defaultValue="Prashant Mishra" 
+                    defaultValue={getProfileData("name", "Prashant Mishra")} 
                     className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" 
                   />
                 </div>
@@ -102,7 +169,7 @@ const ProfileSettings = () => {
                   <Input 
                     id="email" 
                     placeholder="your.email@example.com" 
-                    defaultValue="contact@prashantmishra.com" 
+                    defaultValue={getProfileData("email", "contact@prashantmishra.com")} 
                     className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" 
                   />
                 </div>
@@ -118,7 +185,7 @@ const ProfileSettings = () => {
                   <Input 
                     id="location" 
                     placeholder="City, Country" 
-                    defaultValue="Mumbai, India" 
+                    defaultValue={getProfileData("location", "Mumbai, India")} 
                     className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" 
                   />
                 </div>
@@ -134,7 +201,7 @@ const ProfileSettings = () => {
                   <Input 
                     id="phone" 
                     placeholder="+XX XXXXXXXXXX" 
-                    defaultValue="+91 98765 43210" 
+                    defaultValue={getProfileData("phone", "+91 98765 43210")} 
                     className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" 
                   />
                 </div>
@@ -148,7 +215,7 @@ const ProfileSettings = () => {
                 id="bio" 
                 placeholder="Tell us about yourself" 
                 className="min-h-32" 
-                defaultValue="Passionate developer specializing in building modern web applications with React, TypeScript, and other cutting-edge technologies. Committed to creating intuitive, responsive user experiences."
+                defaultValue={getProfileData("bio", "Passionate developer specializing in building modern web applications with React, TypeScript, and other cutting-edge technologies. Committed to creating intuitive, responsive user experiences.")}
               />
             </div>
           </CardContent>

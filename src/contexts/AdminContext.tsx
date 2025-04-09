@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { AdminCredentials } from "@/types/admin";
 
 interface AdminContextType {
   isAuthenticated: boolean;
@@ -21,8 +22,13 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = (username: string, password: string): boolean => {
-    // Simple authentication - in a real app this should use proper auth
-    if (username === "prashant" && password === "223344") {
+    // Get admin credentials or use default ones
+    const defaultCredentials: AdminCredentials = {
+      username: "prashant",
+      password: "223344"
+    };
+    
+    if (username === defaultCredentials.username && password === defaultCredentials.password) {
       setIsAuthenticated(true);
       localStorage.setItem("admin_authenticated", "true");
       return true;
