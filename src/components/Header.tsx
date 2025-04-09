@@ -1,20 +1,41 @@
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Menu, X, LogIn } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useAdmin } from "@/contexts/AdminContext";
 
-const Header = ({ activeSection }: { activeSection: string }) => {
+interface HeaderProps {
+  activeSection: string;
+}
+
+const Header = ({ activeSection }: HeaderProps) => {
+  const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { isAuthenticated } = useAdmin();
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
-    
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   const navLinks = [
     { href: "#hero", label: "Home" },
@@ -26,98 +47,99 @@ const Header = ({ activeSection }: { activeSection: string }) => {
     { href: "#contact", label: "Contact" },
   ];
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.querySelector(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMenuOpen(false);
-  };
-
   return (
-    <header 
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled 
-          ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm py-3" 
-          : "bg-transparent py-5"
-      )}
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-md"
+          : "bg-transparent"
+      }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <a 
-          href="#hero" 
-          className="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("#hero");
-          }}
-        >
-          Prashant Mishra
-        </a>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex gap-8">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            Prashant Mishra
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-1">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href);
-                  }}
-                  className={cn(
-                    "relative text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400",
-                    activeSection === link.href.substring(1)
-                      ? "text-blue-600 dark:text-blue-400"
-                      : "text-slate-700 dark:text-slate-300"
-                  )}
-                >
-                  {link.label}
-                  {activeSection === link.href.substring(1) && (
-                    <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
-                  )}
-                </a>
-              </li>
+              <a
+                key={link.href}
+                href={link.href}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  activeSection === link.href.substring(1)
+                    ? "text-blue-600 dark:text-blue-400"
+                    : "text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+                }`}
+              >
+                {link.label}
+              </a>
             ))}
-          </ul>
-        </nav>
-        
-        {/* Mobile Navigation Toggle */}
-        <button 
-          className="md:hidden text-slate-700 dark:text-white focus:outline-none"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+            {isAuthenticated ? (
+              <Link to="/admin">
+                <Button variant="outline" size="sm" className="ml-2">
+                  Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/admin/login">
+                <Button variant="ghost" size="sm" className="ml-2">
+                  <LogIn className="h-4 w-4 mr-1" />
+                  <span className="sr-only sm:not-sr-only">Admin</span>
+                </Button>
+              </Link>
+            )}
+          </nav>
+
+          {/* Mobile Navigation Button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-md text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
-      
+
       {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-900 shadow-md py-4 animate-fade-in">
-          <nav className="container mx-auto px-4">
-            <ul className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
-                    className={cn(
-                      "block py-2 text-sm font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400",
-                      activeSection === link.href.substring(1)
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-slate-700 dark:text-slate-300"
-                    )}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+      {isMobile && (
+        <div
+          className={`fixed inset-0 z-30 bg-white/95 dark:bg-slate-900/95 transform transition-transform duration-300 pt-16 ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className={`px-4 py-3 rounded-md text-base font-medium transition-colors ${
+                  activeSection === link.href.substring(1)
+                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                    : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+              {isAuthenticated ? (
+                <Link to="/admin" onClick={closeMenu}>
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-500">
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/admin/login" onClick={closeMenu}>
+                  <Button variant="outline" className="w-full">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Admin Login
+                  </Button>
+                </Link>
+              )}
+            </div>
           </nav>
         </div>
       )}

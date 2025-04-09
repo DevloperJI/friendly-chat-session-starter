@@ -9,11 +9,11 @@ const ResumeDownload = () => {
   const [pdfUrl, setPdfUrl] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   
-  // Generate PDF URL when component mounts
+  // Get PDF URL from localStorage when component mounts
   useEffect(() => {
-    // This would normally be a server-generated PDF or hosted file
-    // For demo purposes, we're creating a data URL
-    const resumeUrl = "/resume-prashant-mishra.pdf";
+    const resumePath = localStorage.getItem("resume_path");
+    // If resume path exists in localStorage, use it, otherwise use default
+    const resumeUrl = resumePath || "/resume-prashant-mishra.pdf";
     setPdfUrl(resumeUrl);
   }, []);
   
@@ -33,7 +33,11 @@ const ResumeDownload = () => {
         // Create an invisible anchor link and click it programmatically
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = 'Prashant-Mishra-Resume.pdf';
+        
+        // Get resume name from localStorage or use default
+        const resumeName = localStorage.getItem("resume_name") || "Prashant-Mishra-Resume.pdf";
+        link.download = resumeName;
+        
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

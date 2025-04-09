@@ -6,12 +6,13 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useIsMobile } from "@/hooks/use-mobile";
 import ProjectCard from "./ProjectCard";
 import ProjectDetailsDialog from "./ProjectDetailsDialog";
-import projectsData from "./projectsData";
+import { useProjects } from "@/hooks/use-projects";
 import { ProjectType } from "./types";
 
 const Projects = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { projects } = useProjects();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
   
@@ -57,10 +58,14 @@ const Projects = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto mb-12 rounded-full"></div>
           
-          {isMobile ? (
+          {projects.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-500 dark:text-slate-400">No projects found.</p>
+            </div>
+          ) : isMobile ? (
             <Carousel className="w-full">
               <CarouselContent>
-                {projectsData.map((project, index) => (
+                {projects.map((project, index) => (
                   <CarouselItem key={project.title}>
                     <ProjectCard 
                       project={project} 
@@ -79,7 +84,7 @@ const Projects = () => {
             </Carousel>
           ) : (
             <div className="grid md:grid-cols-2 gap-6">
-              {projectsData.map((project, index) => (
+              {projects.map((project, index) => (
                 <ProjectCard 
                   key={project.title} 
                   project={project} 
